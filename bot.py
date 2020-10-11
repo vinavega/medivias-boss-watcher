@@ -5,8 +5,6 @@ import discord
 import re
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
-import schedule
-import time
 import asyncio
 
 load_dotenv()
@@ -31,6 +29,7 @@ async def on_message(message):
             await channel.send("O serviço já está ativado")
         else:
             await channel.send("Serviço iniciado")
+            await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name="Medivia's death list"),afk=False)
             on = True
             print("Serviço iniciado")
             while on:
@@ -45,12 +44,13 @@ async def on_message(message):
                         if a:
                             await channel.send(mobName +" encontrado no "+ servName +" -> "+ str(a))
                 print("Execução finalizada, entrando em sleep")
-                await asyncio.sleep(30)
+                await asyncio.sleep(60)
             
     elif message.content.startswith('@stop'):
         if not on:
             await channel.send("O serviço já está desligado")
         else:
+            await client.change_presence(status=discord.Status.idle, activity=None, afk=True)
             print("Serviço pausado")
             on = False
             await channel.send("Serviço pausado")

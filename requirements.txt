@@ -1,0 +1,7 @@
+beautifulsoup4
+requests
+re
+asyncio
+dotenv
+bs4
+discord

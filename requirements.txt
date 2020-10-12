@@ -1,7 +1,6 @@
-beautifulsoup4
-requests
-re
-asyncio
-dotenv
-bs4
-discord
+asyncio==3.4.3
+beautifulsoup4==4.9.3   
+bs4==0.0.1
+discord.py==1.5.0       
+python-dotenv==0.14.0
+requests==2.24.0

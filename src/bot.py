@@ -16,6 +16,7 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
+    await client.change_presence(status=discord.Status.idle, activity=None, afk=True)
     print("READY!")
 
 on = None
@@ -34,7 +35,7 @@ async def on_message(message):
             print("Serviço iniciado")
             while on:
                 print("Executando verificação....")
-                servList = ['Legacy']
+                servList = ['Legacy','Unity']
                 mobsList = ['broodmother','archiona','arcestar','yeti','gieffrin','thousand eyes']
                 for servName in servList:
                     page = requests.get("https://mediviastats.info/recent-deaths.php?server="+ servName)

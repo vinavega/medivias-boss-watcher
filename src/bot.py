@@ -35,7 +35,7 @@ async def on_message(message):
             print("Serviço iniciado")
             while on:
                 print("Executando verificação....")
-                servList = ['Legacy']
+                servList = ['Legacy','Unity']
                 mobsList = ['broodmother','archiona','arcestar','yeti','gieffrin','thousand eyes']
                 for servName in servList:
                     page = requests.get("https://mediviastats.info/recent-deaths.php?server="+ servName)

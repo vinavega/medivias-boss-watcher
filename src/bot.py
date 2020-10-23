@@ -36,7 +36,7 @@ async def on_message(message):
             while on:
                 print("Executando verificação....")
                 servList = ['Legacy']
-                mobsList = ['broodmother','archiona','arcestar','yeti','gieffrin','thousand eyes']
+                mobsList = ['broodmother','archiona','arcestar','yeti','Gieffrin','thousand eyes']
                 for servName in servList:
                     page = requests.get("https://mediviastats.info/recent-deaths.php?server="+ servName)
                     soup = BeautifulSoup(page.content, 'html.parser')

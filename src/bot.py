@@ -7,10 +7,13 @@ from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 import asyncio
 
+servList = ['Legacy']
+mobsList = ['broodmother','archiona','arcestar','yeti','gieffrin','thousand eyes']
+usersList = []
+
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-NAV = os.getenv('MEU_NICK')
 
 client = discord.Client()
 
@@ -35,14 +38,13 @@ async def on_message(message):
             print("Serviço iniciado")
             while on:
                 print("Executando verificação....")
-                servList = ['Legacy']
-                mobsList = ['broodmother','archiona','arcestar','yeti','Gieffrin','thousand eyes']
                 for servName in servList:
                     page = requests.get("https://mediviastats.info/recent-deaths.php?server="+ servName)
                     soup = BeautifulSoup(page.content, 'html.parser')
                     for mobName in mobsList:
-                        a = soup(text=re.compile(mobName))
+                        a = soup(text=re.compile(mobName, re.IGNORECASE))
                         if a:
+                            print(a)
                             await channel.send(mobName +" encontrado no "+ servName +" -> "+ str(a))
                 print("Execução finalizada, entrando em sleep")
                 await asyncio.sleep(60)
@@ -55,10 +57,37 @@ async def on_message(message):
             print("Serviço pausado")
             on = False
             await channel.send("Serviço pausado")
+
     elif message.content.startswith('@status'):
         if on:
             await channel.send("Serviço de monitoramento está rodando")
         else:
             await channel.send("Serviço de monitoramento desligado")
     
+    elif message.content.startswith('@mobs'):
+        await channel.send("Lista de mobs procurados: " + str(mobsList))
+
+    elif message.content.startswith('@servers'):
+        await channel.send("Lista de servers procurados: " + str(servList))
+
+    elif message.content.startswith('@addmob'):
+        mob = message.content.replace("@addmob ", "")
+        mobsList.append(mob.lower())
+        await channel.send(mob + " adicionado com sucesso na lista de mobs procurados")
+
+    elif message.content.startswith('@addserv'):
+        serv = message.content.replace("@addserv ", "")
+        servList.append(serv.lower())
+        await channel.send(serv + " adicionado com sucesso na lista de servers")
+    
+    elif message.content.startswith('@rmmob'):
+        mob = message.content.replace("@rmmob ", "")
+        mobsList.remove(mob.lower())
+        await channel.send(mob + " removido com sucesso da lista de mobs procurados")
+
+    elif message.content.startswith('@rmserv'):
+        serv = message.content.replace("@rmserv ", "")
+        servList.remove(serv.lower())
+        await channel.send(serv + " removido com sucesso da lista de servers")
+        
 client.run(TOKEN)
